@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flex City Top-Up | ZEHYPER</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+  :root {
+    --bg1: #1a002b;
+    --bg2: #240046;
+    --card: rgba(255, 255, 255, 0.08);
+    --accent: #9d4edd;
+    --accent2: #ff6ec7;
+    --text: #ffffff;
+    --gradient: linear-gradient(135deg, #9d4edd, #ff6ec7);
+  }
+
+  * {box-sizing: border-box;}
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, var(--bg1), var(--bg2));
+    color: var(--text);
+    overflow-x: hidden;
+    animation: gradientMove 15s ease infinite;
+    background-size: 200% 200%;
+  }
+
+  @keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  /* --- LOGIN SCREEN --- */
+  #loginScreen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #000000ee, #000000dd);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    text-align: center;
+  }
+
+  #loginScreen h2 {color: var(--accent2); font-size: 26px;}
+  #loginScreen input {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    margin: 10px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  #loginScreen button {
+    background: var(--gradient);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+    box-shadow: 0 0 15px var(--accent2);
+  }
+
+  #loginScreen button:hover {transform: scale(1.05);}
+
+  /* --- NAVBAR --- */
+  .navbar {
+    background: var(--card);
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .menu-icon {font-size: 30px; cursor: pointer;}
+  .title {
+    flex: 1;
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--accent2);
+    letter-spacing: 1px;
+  }
+
+  /* --- SIDEBAR --- */
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    height: 100%;
+    width: 280px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    transition: 0.4s;
+    z-index: 99;
+    box-shadow: 5px 0 20px #000;
+  }
+  .sidebar.open {left: 0;}
+  .sidebar h3 {color: var(--accent2);}
+  .sidebar a {
+    display: block;
+    color: #ccc;
+    text-decoration: none;
+    margin: 10px 0;
+    transition: 0.3s;
+  }
+  .sidebar a:hover {color: var(--accent);}
+
+  /* --- SLIDER --- */
+  .banner {
+    margin-top: 90px;
+    position: relative;
+    width: 95%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 0 30px #000;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: auto;
+    border-radius: 25px;
+    animation: fade 1s ease;
+  }
+
+  @keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  .active {display: block;}
+
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 16px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 24px;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  .prev:hover, .next:hover {
+    background: var(--accent);
+  }
+
+  .prev {left: 20px;}
+  .next {right: 20px;}
+
+  /* --- GAME SECTION --- */
+  .game-card {
+    margin: 40px auto;
+    background: var(--card);
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    text-align: center;
+  }
+
+  .game-card img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #000;
+  }
+
+  .game-card h2 {
+    margin-top: 20px;
+    color: var(--accent);
+    font-size: 26px;
+  }
+
+  .bucks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  .bucks-option {
+    background: var(--gradient);
+    text-align: center;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px var(--accent2);
+  }
+
+  .bucks-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px var(--accent);
+  }
+
+  /* --- TOMBOL BAYAR --- */
+  .payment {margin-top: 40px;}
+  .payment button {
+    background: var(--gradient);
+    border: none;
+    padding: 15px 40px;
+    margin: 15px;
+    border-radius: 15px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s;
+    box-shadow: 0 0 20px var(--accent2);
+    position: relative;
+  }
+
+  .payment button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px var(--accent);
+  }
+
+  .payment button.selected::after {
+    content: "✔️";
+    position: absolute;
+    right: -25px;
+    top: 10px;
+    font-size: 22px;
+    animation: pop 0.5s ease;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  #bayarSekarang {
+    display: none;
+    margin-top: 25px;
+    padding: 18px 50px;
+    background: var(--gradient);
+    border-radius: 15px;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 25px var(--accent2);
+    transition: 0.3s;
+  }
+
+  #bayarSekarang:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px var(--accent);
+  }
+
+  footer {
+    text-align: center;
+    margin: 40px 0;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <h2>Masukkan sandi member zehyper</h2>
+  <input type="password" id="password" placeholder="Masukkan sandi..." />
+  <button onclick="checkPassword()">Masuk</button>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+  <div class="title">ZEHYPER FLEX CITY</div>
+</div>
+
+<!-- SIDEBARnanner -->
+<div class="sidebar" id="sidebar">
+  <h3>Temukan info ZEHYPER 🔥</h3>
+  <a href="#" target="_blank">🌐 Discord Community</a>
+  <a href="#" target="_blank">🎥 TikTok Official</a>
+  <a href="#">📜 Tentang zehyper</a>
+  <a href="#">📞 Kontak Admin</a>
+</div>
+
+<!-- SLIDER -->
+<div class="banner">
+  <img class="slide active" src="banner.jpg" alt="Banner 1">
+  <img class="slide" src="banner2.jpg" alt="Banner 2">
+  <img class="slide" src="banner3.jpg" alt="Banner 3">
+  <img class="slide" src="banner4.jpg" alt="Banner 4">
+  <img class="slide" src="banner5.jpg" alt="Banner 5">
+  <div class="prev" onclick="changeSlide(-1)">❮</div>
+  <div class="next" onclick="changeSlide(1)">❯</div>
+</div>
+
+<!-- GAME CARD -->
+<div class="game-card">
+  <img src="flexcity.jpg" alt="Flex City Game">
+  <h2>💸 Pilih Jumlah Bucks 💸</h2>
+  <div class="bucks-grid">
+    <div class="bucks-option">50K 💰</div>
+    <div class="bucks-option">100K 💰</div>
+    <div class="bucks-option">150K 💰</div>
+    <div class="bucks-option">200K 💰</div>
+    <div class="bucks-option">250K 💰</div>
+    <div class="bucks-option">300K 💰</div>
+    <div class="bucks-option">350K 💰</div>
+    <div class="bucks-option">400K 💰</div>
+    <div class="bucks-option">450K 💰</div>
+    <div class="bucks-option">500K 💰</div>
+  </div>
+  <div class="payment">
+    <h3>chat admin untuk di tf</h3>
+    <button onclick="pilihMetode(this, 'Admin1')">chat dengan admin1 💎</button>
+    <button onclick="pilihMetode(this, 'Admin2')">chat dengan admin2 🪙</button>
+    <br>
+    <button id="bayarSekarang" onclick="bayar()">💸 Bayar Sekarang 💸</button>
+  </div>
+</div>
+
+<footer>© 2025 ZEHYPER FLEX CITY</footer>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const bayarBtn = document.getElementById('bayarSekarang');
+  let metodeDipilih = null;
+  let slideIndex = 0;
+  const slides = document.getElementsByClassName("slide");
+
+  function toggleSidebar() {
+    sidebar.classList.toggle('open');
+  }
+
+  function checkPassword() {
+    const pw = document.getElementById('password').value;
+    if (pw === "zehyper132") {
+      document.getElementById('loginScreen').style.display = 'none';
+    } else {
+      alert("⚠️ Sandi salah, coba lagi!");
+    }
+  }
+
+  function pilihMetode(btn, metode) {
+    document.querySelectorAll('.payment button').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    metodeDipilih = metode;
+    bayarBtn.style.display = 'inline-block';
+  }
+
+  function bayar() {
+    if (metodeDipilih) {
+      alert("Metode " + metodeDipilih + " dipilih. Kamu akan diarahkan ke chat admin.");
+      window.location.href = "https://www.tiktok.com/@zehyper0.1";
+    } else {
+      alert("Pilih metode chat dulu!");
+    }
+  }
+
+  // --- SLIDER FUNCTIONALITY ---
+  function showSlide(n) {
+    for (let i = 0; i < slides.length; i++) slides[i].classList.remove('active');
+    slideIndex = (n + slides.length) % slides.length;
+    slides[slideIndex].classList.add('active');
+  }
+
+  function changeSlide(n) { showSlide(slideIndex + n); }
+
+  // Auto play
+  setInterval(() => { changeSlide(1); }, 4000);
+</script>
+
+</body>
+</html>
